@@ -26,7 +26,9 @@
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
     }).addTo(map);
-    
+
+    L.geoJSON("https://raw.githubusercontent.com/K6221/GEOS472_lab2/main/station.geojson")
+    .addTo(map);
 
   </script>
 </body>
