@@ -27,8 +27,10 @@
       attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
     }).addTo(map);
 
-    L.geoJSON("https://raw.githubusercontent.com/K6221/GEOS472_lab2/main/station.geojson")
-    .addTo(map);
+    //load GeoJSON from an external file
+    fetch("https://raw.githubusercontent.com/K6221/GEOS472_lab2/main/station.geojson").then(res => res.json()).then(data => {
+    L.geoJSON(data).addTo(map);
+    });
 
   </script>
 </body>
