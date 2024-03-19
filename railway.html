@@ -20,17 +20,18 @@
   <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
   <script>
     var map = L.map('map').setView([34.6937, 135.5023], 10); // Centered around Osaka, Japan
-    
+
+    // add base map 
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
     }).addTo(map);
 
 
-    //load GeoJSON from an external file
+    //load station GeoJSON
     fetch("https://raw.githubusercontent.com/K6221/GEOS472_lab2/main/station.geojson").then(res => res.json()).then(stationdata => {
     L.geoJSON(stationdata).addTo(map);
     });
-
+    // load line GeoJSON
     fetch("https://raw.githubusercontent.com/K6221/GEOS472_lab2/main/line.geojson").then(res => res.json()).then(linedata => {
     L.geoJSON(linedata).addTo(map);
     });
