@@ -21,15 +21,13 @@
 
   <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
   <script>
-    // Initialize the map
-    mapboxgl.accessToken = 'pk.eyJ1IjoiazYyMjEiLCJhIjoiY2xzc2VyczZiMTJnMTJsbnlqYmY0eDBidCJ9.qYmhavVJJbDDzeyoAuTXeQ';
-
-        var map = new mapboxgl.Map({
-            container: 'map', 
-            style: 'mapbox://styles/k6221/cltxr4dy101ix01r5elg32b1a',
-            center: [135, 35],
-            zoom: 10.0
-        });
+    var map = L.map('map').setView([34.6937, 135.5023], 10); // Centered around Osaka, Japan
+    
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
+      subdomains: 'abcd',
+      maxZoom: 20
+    });
 
 
     //load GeoJSON from an external file
