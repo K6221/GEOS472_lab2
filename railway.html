@@ -23,12 +23,12 @@
     var map = L.map('map').setView([34.6937, 135.5023], 10); // Centered around Osaka, Japan
 
     // Add basemap tile layer
-    var Stadia_StamenTerrain = L.tileLayer('https://tiles.stadiamaps.com/tiles/stamen_terrain/{z}/{x}/{y}{r}.{ext}', {
-    minZoom: 0,
-    maxZoom: 18,
-    attribution: '&copy; <a href="https://www.stadiamaps.com/" target="_blank">Stadia Maps</a> &copy; <a href="https://www.stamen.com/" target="_blank">Stamen Design</a> &copy; <a href="https://openmaptiles.org/" target="_blank">OpenMapTiles</a> &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-    ext: 'png'
-    }).addTo(map);
+    var Jawg_Matrix = L.tileLayer('https://tile.jawg.io/jawg-matrix/{z}/{x}/{y}{r}.png?access-token={accessToken}', {
+      attribution: '<a href="https://jawg.io" title="Tiles Courtesy of Jawg Maps" target="_blank">&copy; <b>Jawg</b>Maps</a> &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+      minZoom: 0,
+      maxZoom: 22,
+      accessToken: '<uVRMf2NSptvKToTwG7luYpKsGMWXv4mGQNEs1uvhPS96ZSXRQKB0NBkWGp38gE2Q>'
+    });
 
 
     //load GeoJSON from an external file
