@@ -1,3 +1,4 @@
 # GEOS472 Lab2
 
-Link to map: https://github.io/K6221/GEOS472_lab2/railway.html
+Link to map: https://K6221.github.io/GEOS472_lab2/railway.html
+
