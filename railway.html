@@ -28,7 +28,7 @@
     }).addTo(map);
 
     //load GeoJSON from an external file
-    fetch("https://raw.githubusercontent.com/K6221/GEOS472_lab2/main/station.geojson").then(res => res.json()).then(data => {
+    fetch("https://raw.githubusercontent.com/K6221/GEOS472_lab2/main/map.geojson").then(res => res.json()).then(data => {
     L.geoJSON(data).addTo(map);
     });
 
