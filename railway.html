@@ -2,7 +2,9 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewpoint" content="initial-scale=1,maximum-scale=1, user-scalable=no">
+  <script src='https://api.mapbox.com/mapbox-gl-js/v3.2.0/mapbox-gl.js'></script>
+  <link href='https://api.mapbox.com/mapbox-gl-js/v3.2.0/mapbox-gl.css' rel='stylesheet'>
   <title>Railway Network in Osaka Prefecture</title>
   <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
   <style>
@@ -20,15 +22,14 @@
   <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
   <script>
     // Initialize the map
-    var map = L.map('map').setView([34.6937, 135.5023], 10); // Centered around Osaka, Japan
+    mapboxgl.accessToken = 'pk.eyJ1IjoiazYyMjEiLCJhIjoiY2xzc2VyczZiMTJnMTJsbnlqYmY0eDBidCJ9.qYmhavVJJbDDzeyoAuTXeQ';
 
-    // Add basemap tile layer
-    var Jawg_Matrix = L.tileLayer('https://tile.jawg.io/jawg-matrix/{z}/{x}/{y}{r}.png?access-token={accessToken}', {
-      attribution: '<a href="https://jawg.io" title="Tiles Courtesy of Jawg Maps" target="_blank">&copy; <b>Jawg</b>Maps</a> &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-      minZoom: 0,
-      maxZoom: 22,
-      accessToken: '<uVRMf2NSptvKToTwG7luYpKsGMWXv4mGQNEs1uvhPS96ZSXRQKB0NBkWGp38gE2Q>'
-    });
+        var map = new mapboxgl.Map({
+            container: 'map', 
+            style: 'mapbox://styles/k6221/cltxr4dy101ix01r5elg32b1a',
+            center: [135, 35],
+            zoom: 10.0
+        });
 
 
     //load GeoJSON from an external file
