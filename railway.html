@@ -22,8 +22,9 @@
     var map = L.map('map').setView([34.6937, 135.5023], 10); // Centered around Osaka, Japan
 
     // add base map 
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    L.tileLayer.provider('MapBox', {
+    id: 'mapbox://styles/k6221/cltxr4dy101ix01r5elg32b1a',
+    accessToken: 'pk.eyJ1IjoiazYyMjEiLCJhIjoiY2xzc2VyczZiMTJnMTJsbnlqYmY0eDBidCJ9.qYmhavVJJbDDzeyoAuTXeQ'
     }).addTo(map);
 
 
