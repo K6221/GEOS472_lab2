@@ -17,7 +17,6 @@
     .background-color-blue {
       background-color: lightblue;
     }
-    
   </style>
 </head>
 <body>
@@ -91,12 +90,12 @@
         new mapboxgl.Popup()
           .setLngLat(e.lngLat)
           .setHTML(
-            `<h3> ${e.features[0].properties.StationName} Station</h3>
+            `<P> ${e.features[0].properties.StationName} Station</p>
              <p><strong>Station Number:<strong> ${e.features[0].properties.StationNumber}</p>
              <p><strong>Line:</strong> ${e.features[0].properties.Line}</p>
              <p><strong>Station Type</strong> ${e.features[0].properties.Type}</p>
              <p><strong>Japanese Name:</strong> ${e.features[0].properties.JPname}</p>`
-            )
+          )
           .addTo(map);
       });
       
