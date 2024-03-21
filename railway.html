@@ -5,6 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Railway Network in Osaka Prefecture</title>
   <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+  <script src='https://api.mapbox.com/mapbox-gl-js/v3.2.0/mapbox-gl.js'></script>
+  <link href='https://api.mapbox.com/mapbox-gl-js/v3.2.0/mapbox-gl.css' rel='stylesheet'>
+
   <style>
     html, body, #map {
       height: 100%;
@@ -19,13 +22,16 @@
 
   <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
   <script>
-    var map = L.map('map').setView([34.6937, 135.5023], 10); // Centered around Osaka, Japan
-
+    
     // add base map 
-    L.tileLayer.provider('MapBox', {
-    id: 'http://{s}.tiles.mapbox.com/v3/user.map-id/{z}/{x}/{y}.png',
-    accessToken: 'pk.eyJ1IjoiazYyMjEiLCJhIjoiY2xzc2VyczZiMTJnMTJsbnlqYmY0eDBidCJ9.qYmhavVJJbDDzeyoAuTXeQ'
-    }).addTo(map);
+    mapboxgl.accessToken = 'pk.eyJ1IjoiazYyMjEiLCJhIjoiY2xzc2VyczZiMTJnMTJsbnlqYmY0eDBidCJ9.qYmhavVJJbDDzeyoAuTXeQ';
+
+    var map = new mapboxgl.Map({
+            container: 'map', 
+            style: 'mapbox://styles/k6221/cltxr4dy101ix01r5elg32b1a',
+            center: [135.5023, 34.6937],
+            zoom: 10.0
+        });
 
 
     //load station GeoJSON
