@@ -84,8 +84,29 @@
             },
             'paint': {}
         });
+
+      // add popup
+      map.on('click', 'stations', (e) => {
+        new mapboxgl.Popup()
+          .setLngLat(e.lngLat)
+          .setHTML(e.features[0].properties.name)
+          .addTo(map);
+      });
+      
+      //change the cursor to a pointer when the mouse is over the station points
+      map.on('mouseenter', 'stations', () => {
+        map.getCanvas().style.cursor = 'pointer';
+      });
+      
+      // change the cursor back to a pointer when it leaves the station points
+      map.on('mouseleave', 'stations', () => {
+        map.getCanvas().style.cursor = '';
+      });
+      
     });
     });
+
+
 
   </script>
 </body>
