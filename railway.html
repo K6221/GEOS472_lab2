@@ -80,15 +80,28 @@
             'source': 'stations',
             'paint': {
               'circle-radius': 6,
-              'circle-color': 'blue'
+              'circle-color': 'yellow'
             }
         });
 
       // add popup
+      
       map.on('click', 'stations', (e) => {
+        var features = e.features;
+        if (!features || features.length === 0) return;
+
+        var feature = features[0];
+        var properties = feature.properties;
+        
         new mapboxgl.Popup()
           .setLngLat(e.lngLat)
-          .setHTML(e.features[0].properties.name)
+          .setHTML(
+            `<h3>${properties.StationName} Station</h3>
+             <p><strong>Station Number:<strong> ${properties.StationNumber}</p>
+             <p><strong>Line:</strong> ${properties.Line}</p>
+             <p><strong>Station Type</strong> ${properties.Type}</p>
+             <p><strong>Japanese Name:</strong> ${properties.JPname}</p>
+            )
           .addTo(map);
       });
       
