@@ -91,11 +91,11 @@
         new mapboxgl.Popup()
           .setLngLat(e.lngLat)
           .setHTML(
-            `<h3> ${e.feature[0].properties.StationName} Station</h3>
-             <p><strong>Station Number:<strong> ${e.feature[0].properties.StationNumber}</p>
-             <p><strong>Line:</strong> ${e.feature[0].properties.Line}</p>
-             <p><strong>Station Type</strong> ${e.feature[0].properties.Type}</p>
-             <p><strong>Japanese Name:</strong> ${e.feature[0].properties.JPname}</p>
+            `<h3> ${e.features[0].properties.StationName} Station</h3>
+             <p><strong>Station Number:<strong> ${e.features[0].properties.StationNumber}</p>
+             <p><strong>Line:</strong> ${e.features[0].properties.Line}</p>
+             <p><strong>Station Type</strong> ${e.features[0].properties.Type}</p>
+             <p><strong>Japanese Name:</strong> ${e.features[0].properties.JPname}</p>`
             )
           .addTo(map);
       });
