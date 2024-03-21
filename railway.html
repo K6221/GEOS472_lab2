@@ -38,7 +38,27 @@
         });
 
 
-    //load station GeoJSON
+    // load line GeoJSON
+    fetch("https://raw.githubusercontent.com/K6221/GEOS472_lab2/main/line.geojson").then(res => res.json()).then(linedata => {
+    map.on('load', function() {
+        map.addSource('lines', {
+            type: 'geojson',
+            data: linedata
+        });
+      // add onto the map 
+        map.addLayer({
+            'id': 'lines',
+            'type': 'line',
+            'source': 'lines',
+            'paint': {
+                'line-color': 'yellow',
+                'line-width': 2
+            }
+        });
+    });
+    });
+
+        //load station GeoJSON 
     fetch("https://raw.githubusercontent.com/K6221/GEOS472_lab2/main/station.geojson").then(res => res.json()).then(stationdata => {
     map.on('load', function() {
         map.addSource('stations', {
@@ -53,26 +73,6 @@
             'paint': {
                 'circle-radius': 6,
                 'circle-color': 'blue'
-            }
-        });
-    });
-    });
-
-    // load line GeoJSON
-    fetch("https://raw.githubusercontent.com/K6221/GEOS472_lab2/main/line.geojson").then(res => res.json()).then(linedata => {
-    map.on('load', function() {
-        map.addSource('lines', {
-            type: 'geojson',
-            data: linedata
-        });
-
-        map.addLayer({
-            'id': 'lines',
-            'type': 'line',
-            'source': 'lines',
-            'paint': {
-                'line-color': 'red',
-                'line-width': 2
             }
         });
     });
