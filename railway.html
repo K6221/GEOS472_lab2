@@ -76,10 +76,13 @@
 
         map.addLayer({
             'id': 'stations',
-            'type': 'circle',
+            'type': 'symbol',
             'source': 'stations',
+            'layout': {
+              'icon-image': "https://raw.githubusercontent.com/K6221/GEOS472_lab2/main/rail-15.svg",
+              'icon-size': 1.5
+            },
             'paint': {
-                'circle-radius': 6,
                 'circle-color': 'blue'
             }
         });
