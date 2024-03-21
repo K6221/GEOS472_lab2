@@ -51,7 +51,7 @@
             'type': 'line',
             'source': 'lines',
             'paint': {
-                'line-color': ['get', 'colour'],
+                'line-color': ['get', 'colour'], // set a colour based on hex code in geojson file
                 'line-opacity': [
                   'match',
                   ['get', 'dominant type'],
@@ -60,7 +60,7 @@
                   'Elevated', 1,
                   1 // set default for other classes just in case
                   ],
-                'line-width': 2
+                'line-width': 4
             }
         });
     });
