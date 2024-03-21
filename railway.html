@@ -5,14 +5,15 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Railway Network in Osaka Prefecture</title>
   <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
-  <script src='https://api.mapbox.com/mapbox-gl-js/v3.2.0/mapbox-gl.js'></script>
-  <link href='https://api.mapbox.com/mapbox-gl-js/v3.2.0/mapbox-gl.css' rel='stylesheet'>
 
   <style>
     html, body, #map {
       height: 100%;
       margin: 0;
       padding: 0;
+    }
+    .background-color-blue {
+      background-color: lightblue;
     }
   </style>
 </head>
@@ -22,27 +23,37 @@
 
   <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
   <script>
-    
-    // add base map 
-    mapboxgl.accessToken = 'pk.eyJ1IjoiazYyMjEiLCJhIjoiY2xzc2VyczZiMTJnMTJsbnlqYmY0eDBidCJ9.qYmhavVJJbDDzeyoAuTXeQ';
+    var map = L.map('map').setView([34.6937, 135.5023], 10);
 
-    var map = new mapboxgl.Map({
-            container: 'map', 
-            style: 'mapbox://styles/k6221/cltxr4dy101ix01r5elg32b1a',
-            center: [135.5023, 34.6937],
-            zoom: 10.0
-        });
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(map);
 
+    // Load station GeoJSON
+    fetch("https://raw.githubusercontent.com/K6221/GEOS472_lab2/main/station.geojson")
+      .then(res => res.json())
+      .then(stationdata => {
+        L.geoJSON(stationdata, {
+          onEachFeature: function (feature, layer) {
+            layer.on('click', function () {
+              document.body.classList.add('background-color-blue');
+            });
+          }
+        }).addTo(map);
+      });
 
-    //load station GeoJSON
-    fetch("https://raw.githubusercontent.com/K6221/GEOS472_lab2/main/station.geojson").then(res => res.json()).then(stationdata => {
-    L.geoJSON(stationdata).addTo(map);
-    });
-    // load line GeoJSON
-    fetch("https://raw.githubusercontent.com/K6221/GEOS472_lab2/main/line.geojson").then(res => res.json()).then(linedata => {
-    L.geoJSON(linedata).addTo(map);
-    });
-
+    // Load line GeoJSON
+    fetch("https://raw.githubusercontent.com/K6221/GEOS472_lab2/main/line.geojson")
+      .then(res => res.json())
+      .then(linedata => {
+        L.geoJSON(linedata, {
+          onEachFeature: function (feature, layer) {
+            layer.on('click', function () {
+              document.body.classList.add('background-color-blue');
+            });
+          }
+        }).addTo(map);
+      });
   </script>
 </body>
 </html>
