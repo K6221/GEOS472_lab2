@@ -76,13 +76,12 @@
 
         map.addLayer({
             'id': 'stations',
-            'type': 'symbol',
+            'type': 'circle',
             'source': 'stations',
-            'layout': {
-              'icon-image': "https://github.com/mapbox/mapbox-gl-styles/sprites/basic-v8/-svg/rail-15.svg",
-              'icon-size': 4
-            },
-            'paint': {}
+            'paint': {
+              'circle-color': 'blue',
+              'circle-size': 6
+            }
         });
 
       // add popup
