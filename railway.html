@@ -69,6 +69,19 @@
       map.setStyle(selectedStyle);
     });
 
+    // find stroke colour based on Line
+    stationdata.features.forEach(station => {
+    // find associated line from station data
+      const associatedLine = station.properties['Line'];
+      // find corresponding line feature
+      const lineFeature = linedata.features.find(line => line.properties['line name'] === associatedLine);
+      if (lineFeature) {
+        // set circle stroke color based on the line color
+        // assume all stations have its associated line and stroke colour
+        station.properties['strokeColor'] = lineFeature.properties['colour'];
+      }
+    });
+
 
     // load line GeoJSON
     fetch("https://raw.githubusercontent.com/K6221/GEOS472_lab2/main/line.geojson").then(res => res.json()).then(linedata => {
@@ -113,6 +126,8 @@
             'paint': {
               'circle-radius': 6,
               'circle-color': 'white'
+              'circle-opacity': 0,
+              'circle-stroke-color': ['get', 'strokeColor'],
             }
         });
 
