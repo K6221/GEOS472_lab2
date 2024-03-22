@@ -45,7 +45,7 @@
     var map = new mapboxgl.Map({
             container: 'map', 
             style: 'mapbox://styles/k6221/cltxr4dy101ix01r5elg32b1a',
-            center: [135.5075, 34.6386], // set Osaka, Japan as the centre
+            center: [135.5075, 34.6086], // set Osaka, Japan as the centre
             zoom: 9.3
         });
 
@@ -72,7 +72,8 @@
                   'Elevated', 1,
                   1 // set default for other classes just in case
                   ],
-                'line-width': 4
+                'line-width': 4,
+               'line-offset': 2 // 
             }
         });
     });
