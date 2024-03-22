@@ -36,6 +36,14 @@
   <div id="map"></div>
   <div class="mapTitle" id="features"><h2>Railway Network in Osaka Prefecture</h2></div>
 
+  <div>
+    <label for="style-select">Choose a base map style:</label>
+    <select id="style-select">
+      <option value="mapbox://styles/K6221/cltxr4dy101ix01r5elg32b1a">Default Style</option>
+      <option value="mapbox://styles/k6221/clu3253js025s01ra1ktn14qc">Light basemap</option>
+    </select>
+  </div>
+
   <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
   <script>
     
@@ -48,6 +56,13 @@
             center: [135.5075, 34.6086], // set Osaka, Japan as the centre
             zoom: 9.3
         });
+
+    // make an option for base map
+    var styleSelect = document.getElementById('style-select');
+    styleSelect.addEventListener('change', function () {
+      var selectedStyle = styleSelect.value;
+      map.setStyle(selectedStyle);
+    });
 
 
     // load line GeoJSON
