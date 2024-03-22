@@ -106,30 +106,26 @@
             data: stationdata
         });
       
-      // find stroke colour based on Line
       stationdata.features.forEach(station => {
-        // find associated line from station data
         const associatedLine = station.properties['Line'];
-        // find corresponding line feature
-        const lineFeature = linedata.features.find(line => line.properties['line name'] === associatedLine);
+        const lineFeature = linedata.features.find(line => line properties['Line'] === associatedLine);
         if (lineFeature) {
-          // set circle stroke color based on the line colour
-          // assume all stations have its associated line and stroke colour
-          station.properties['strokeColor'] = lineFeature.properties['colour'];
+          const strokeColour = lineFeature.properties['colour'];
         }
       });
-
-        map.addLayer({
-            'id': 'stations',
-            'type': 'circle',
-            'source': 'stations',
-            'paint': {
-              'circle-radius': 6,
-              'circle-color': 'white'
-              'circle-opacity': 0,
-              'circle-stroke-color': ['get', 'strokeColor'],
-            }
-        });
+      
+      map.addLayer({
+        'id': 'stations',
+        'type': 'circle',
+        'source': 'stations',
+        'paint': {
+          'circle-radius': 6,
+          'circle-color': 'white',
+          'circle-opacity': 0,
+          'circle-stroke-color': strokeColour,
+          'circle-stroke-width': 2
+        }
+      });
 
       // add popup
       
