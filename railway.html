@@ -22,16 +22,6 @@
       width: 80%;
       color: #fff;
     }
-    
-    .style-selector {
-      position: absolute;
-      bottom: 10px;
-      left: 10px;
-      background-color: white;
-      padding: 10px;
-      border-radius: 5px;
-      z-index: 2
-    }
 
         
   </style>
@@ -61,13 +51,6 @@
             center: [135.5075, 34.5986], // set Osaka, Japan as the centre
             zoom: 9.3
         });
-
-    // make an option for base map
-    var styleSelect = document.getElementById('style-select');
-    styleSelect.addEventListener('change', function () {
-      var selectedStyle = styleSelect.value;
-      map.setStyle(selectedStyle);
-    });
 
 
     // load line GeoJSON
@@ -106,14 +89,6 @@
             data: stationdata
         });
       
-      stationdata.features.forEach(station => {
-        const associatedLine = station.properties['Line'];
-        const lineFeature = linedata.features.find(line => line properties['Line'] === associatedLine);
-        if (lineFeature) {
-          const strokeColour = lineFeature.properties['colour'];
-        }
-      });
-      
       map.addLayer({
         'id': 'stations',
         'type': 'circle',
@@ -122,7 +97,7 @@
           'circle-radius': 6,
           'circle-color': 'white',
           'circle-opacity': 0,
-          'circle-stroke-color': strokeColour,
+          'circle-stroke-color': white,
           'circle-stroke-width': 2
         }
       });
