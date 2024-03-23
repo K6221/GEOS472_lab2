@@ -110,7 +110,7 @@
       function highlightStationsOnLine(lineName) {
         map.setPaintProperty('stations', 'circle-stroke-color', ['case',
                                                                  ['==', ['get', 'Line'], lineName], // Red for clicked station
-                                                                 'red',
+                                                                 'yellow',
                                                                  'white' // White for any other stations
                                                                  ]);
       }
