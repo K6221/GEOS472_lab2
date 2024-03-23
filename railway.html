@@ -112,14 +112,14 @@
 
         const features = map.queryRenderedFeatures(e.point, { layers: ['stations'] });
         const station = features[0];
-        const lineName station.properties.Line;
+        const lineName = station.properties.Line;
 
         //clicked station colour
         map.setPaintProperty('stations', 'circle-stroke-color', ['case',
-                                                                 ['==', ['get', 'StationName'],
-                                                                  'yellow',
-                                                                  'white'
-                                                                  ]);
+                                                                 ['==', ['get', 'StationName'], station.properties.StationName],
+                                                                 'yellow',
+                                                                 'white'
+                                                                ]);
 
         //associated line colour
         map.setFilter('lines', ['==', 'line name', lineName]);
@@ -127,6 +127,7 @@
                                                      ['==', ['get', 'line name'], lineName],
                                                      'yellow',
                                                      ['get', 'colour']
+                                                     ]);
         
         new mapboxgl.Popup()
           .setLngLat(e.lngLat)
