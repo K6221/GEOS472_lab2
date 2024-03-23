@@ -112,7 +112,7 @@
         map.setPaintProperty('stations', 'circle-stroke-color', ['case',
                                                                  ['==', ['get', 'Line'], lineName], // Red for clicked station
                                                                  'red',
-                                                                 ['==', ['get', 'Line'], clickedLine], // Yellow for other stations on the same line
+                                                                 ['==', ['get', 'Line'], lineName], // Yellow for other stations on the same line
                                                                  'yellow',
                                                                  'white' // White for any other stations
                                                                  ]);
