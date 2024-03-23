@@ -28,6 +28,18 @@
   
 </head>
 <body>
+  <style>
+    .style-selector {
+      position: absolute;
+      bottom: 10px;
+      left: 10px;
+      background-color: white;
+      padding: 10px;
+      border-radius: 5px;
+      z-index: 1
+    }
+    
+  </style>
   <div id="map"></div>
   <div class="mapTitle" id="features"><h2>Railway Network in Osaka Prefecture</h2></div>
 
@@ -52,6 +64,13 @@
             center: [135.5075, 34.5986], // set Osaka, Japan as the centre
             zoom: 9.3
         });
+
+    // make an option for base map
+    var styleSelect = document.getElementById('style-select');
+    styleSelect.addEventListener('change', function () {
+      var selectedStyle = styleSelect.value;
+      map.setStyle(selectedStyle);
+    });
 
 
     // load line GeoJSON
