@@ -105,20 +105,21 @@
 
       // highlight function
 
-      // highlight clicked station in red,
-      //other stations on the same associated line in yellow, 
+      // highlight clicked station and stations on the same line in red,
       //any other stations in white
       function highlightStationsOnLine(lineName) {
         map.setPaintProperty('stations', 'circle-stroke-color', ['case',
                                                                  ['==', ['get', 'Line'], lineName], // Red for clicked station
                                                                  'red',
-                                                                 ['==', ['get', 'Line'], lineName], // Yellow for other stations on the same line
-                                                                 'yellow',
                                                                  'white' // White for any other stations
                                                                  ]);
         // line 
         map.setFilter('lines', ['==', 'line name', lineName]);
-        map.setPaintProperty('lines', 'line-color', 'yellow');
+        map.setPaintProperty('lines', 'line-color', ['case',
+                                                     ['==', 'line name', lineName],
+                                                     'yellow', // set yellow for the associated line
+                                                     ['get', 'colour'] // keep original colour for non-associated lines
+                                                     ]);
       }
 
       // reset function (make it default)
