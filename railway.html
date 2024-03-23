@@ -116,6 +116,9 @@
                                                                  'yellow',
                                                                  'white' // White for any other stations
                                                                  ]);
+        // line 
+        map.setFilter('lines', ['==', 'line name', lineName]);
+        map.setPaintProperty('lines', 'line-color', 'yellow');
       }
 
       // reset function (make it default)
