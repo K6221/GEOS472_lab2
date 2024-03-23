@@ -114,6 +114,7 @@
                                                                  'white' // White for any other stations
                                                                  ]);
         // line 
+        map.setFilter('lines', ['==', 'line name', '']);
         map.setFilter('lines', ['==', 'line name', lineName]);
         map.setPaintProperty('lines', 'line-color', ['case',
                                                      ['==', 'line name', lineName],
