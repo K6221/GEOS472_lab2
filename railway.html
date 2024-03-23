@@ -103,6 +103,20 @@
       });
 
       // add popup
+
+      // highlight other stations on the same associated line
+      function highlightStationOnLine(lineName) {
+        map.setPaintProperty('stations', 'circle-stroke-color', 'white');
+        map.setFilter('stations', ['==', 'Line', lineName]);
+        map.setPaintProperty('stations', 'circle-stroke-color', 'yellow');
+      }
+
+      // reset function (make it default)
+      function resetMap() {
+        map.setPaintProperty('stations', 'circle-stroke-color', 'white');
+        map.setFilter('lines', null);
+        map.setPaintProperty('lines', 'line-color', ['get', 'colour']);
+      }
       
       map.on('click', 'stations', (e) => {
 
@@ -111,8 +125,13 @@
         map.setPaintProperty('lines', 'line-color', ['get', 'colour']);
 
         const features = map.queryRenderedFeatures(e.point, { layers: ['stations'] });
-        const station = features[0];
-        const lineName = station.properties.Line;
+        if (features.length > 0) {
+          const station = features[0];
+          const lineName = station.properties.Line;
+          highlightStationOnLine(lineName);
+        } else {
+          resetMap();
+        }
 
         //clicked station colour
         map.setPaintProperty('stations', 'circle-stroke-color', ['case',
