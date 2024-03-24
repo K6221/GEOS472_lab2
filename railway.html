@@ -63,7 +63,8 @@
         });
 
     // clear Map highlight function (makes it default)
-    function clearMap(style) {
+    function clearMap() {
+      const style = map.getStyle().layers[0].id;
       if (style === 'mapbox://styles/k6221/clu3253js025s01ra1ktn14qc') { // Light basemap
         map.setPaintProperty('stations', 'circle-stroke-color', 'black');
         map.setPaintProperty('lines', 'line-color', ['get', 'colour']);
@@ -74,8 +75,6 @@
     } // close clearMap
         
         
-
-
     function addLayersAfterStyleLoad() {
     // load line GeoJSON
     fetch("https://raw.githubusercontent.com/K6221/GEOS472_lab2/main/line.geojson").then(res => res.json()).then(linedata => {
@@ -151,7 +150,7 @@
             const style = map.getStyle().layers[0].id;
             highlightStationsOnLine(lineName, style);
           } else {
-            clearMap(map.getStyle().layers[0].id);
+            clearMap();
           } // close else
 
           // add popup
@@ -184,6 +183,7 @@
       addLayersAfterStyleLoad();
     }); // close map.on style.load
 
+    // change base map style
     const styleSelector = document.getElementsByClassName('style-selector')[0];
     const inputs = styleSelector.getElementsByTagName('input');
     
@@ -191,6 +191,7 @@
       input.onclick = () => {
         const layerId = input.value;
         map.setStyle(`mapbox://styles/k6221/${layerId}`);
+        clearMap();
       }; // close input.onclick
     } // close for loop
 
