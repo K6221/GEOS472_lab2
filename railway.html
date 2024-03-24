@@ -76,110 +76,111 @@
     }
 
 
+    function addLayersAfterStyleLoad() {
     // load line GeoJSON
     fetch("https://raw.githubusercontent.com/K6221/GEOS472_lab2/main/line.geojson").then(res => res.json()).then(linedata => {
-    map.on('load', function() {
+      map.on('load', function() {
         map.addSource('lines', {
-            type: 'geojson',
-            data: linedata
+          type: 'geojson',
+          data: linedata
         });
-      // add onto the map 
+        // add onto the map 
         map.addLayer({
-            'id': 'lines',
-            'type': 'line',
-            'source': 'lines',
-            'paint': {
-                'line-color': ['get', 'colour'], // set a colour based on hex code in geojson file
-                'line-opacity': [
-                  'match',
-                  ['get', 'dominant type'],
-                  'Underground', 0.3, // if the dominant type is "Underground," make it less opaque
-                  'Ground', 1, 
-                  'Elevated', 1,
-                  1 // set default for other classes just in case
-                  ],
-                'line-width': 4,
-            }
-        });
-    });
-    });
-
-        //load station GeoJSON 
+          'id': 'lines',
+          'type': 'line',
+          'source': 'lines',
+          'paint': {
+            'line-color': ['get', 'colour'], // set a colour based on hex code in geojson file
+            'line-opacity': [
+              'match',
+              ['get', 'dominant type'],
+              'Underground', 0.3, // if the dominant type is "Underground," make it less opaque
+              'Ground', 1, 
+              'Elevated', 1,
+              1 // set default for other classes just in case
+            ],
+            'line-width': 4,
+          }
+        }); // close map.addLayer
+      }); // close map.on
+    }); // close fetch line
+    
+    //load station GeoJSON 
     fetch("https://raw.githubusercontent.com/K6221/GEOS472_lab2/main/station.geojson").then(res => res.json()).then(stationdata => {
-    map.on('load', function() {
+      map.on('load', function() {
         map.addSource('stations', {
-            type: 'geojson',
-            data: stationdata
+          type: 'geojson',
+          data: stationdata
+        }); // close map.addSource
+        
+        map.addLayer({
+          'id': 'stations',
+          'type': 'circle',
+          'source': 'stations',
+          'paint': {
+            'circle-radius': 6,
+            'circle-color': 'white',
+            'circle-opacity': 0,
+            'circle-stroke-color': 'white',
+            'circle-stroke-width': 2
+          } //close paint
+        }); // close map.addLayer
+
+        // highlight function
+        function highlightStationsOnLine(lineName) {
+          map.setPaintProperty('stations', 'circle-stroke-color', ['case',
+                                                                   ['==', ['get', 'Line'], lineName], // Red for clicked station
+                                                                   'yellow',
+                                                                   'white' // White for any other stations
+                                                                  ]);
+        } // close highlightStationsOnLine function
+
+        map.on('click', 'stations', (e) => {
+          // remove previous highlights (make it default)
+          map.setPaintProperty('stations', 'circle-stroke-color', 'white');
+          map.setPaintProperty('lines', 'line-color', ['get', 'colour']);
+
+          const features = map.queryRenderedFeatures(e.point, { layers: ['stations'] });
+          if (features.length > 0) {
+            const station = features[0];
+            const lineName = station.properties.Line;
+            highlightStationsOnLine(lineName);
+          } else {
+            clearMap();
+          } // close else
+
+          // add popup
+          new mapboxgl.Popup()
+            .setLngLat(e.lngLat)
+            .setHTML(
+              `<P> ${e.features[0].properties.StationName} Station</p>
+               <p><strong>Station Number:<strong> ${e.features[0].properties.StationNumber}</p>
+               <p><strong>Line:</strong> ${e.features[0].properties.Line}</p>
+               <p><strong>Station Type</strong> ${e.features[0].properties.Type}</p>
+               <p><strong>Japanese Name:</strong> ${e.features[0].properties.JPname}</p>`
+            ) // cloase setHTML
+            .addTo(map);
+        }); // close map.on click function
+
+        //change the cursor to a pointer when the mouse is over the station points
+        map.on('mouseenter', 'stations', () => {
+          map.getCanvas().style.cursor = 'pointer';
         });
-      
-      map.addLayer({
-        'id': 'stations',
-        'type': 'circle',
-        'source': 'stations',
-        'paint': {
-          'circle-radius': 6,
-          'circle-color': 'white',
-          'circle-opacity': 0,
-          'circle-stroke-color': 'white',
-          'circle-stroke-width': 2
-        }
-      });
 
-      // highlight function
+        // change the cursor back to a pointer when it leaves the station points
+        map.on('mouseleave', 'stations', () => {
+          map.getCanvas().style.cursor = '';
+        });
+        
+      }); // close map.on
+    }); // close fetch station
 
-      // highlight clicked station and stations on the same line in red,
-      //any other stations in white
-      function highlightStationsOnLine(lineName) {
-        map.setPaintProperty('stations', 'circle-stroke-color', ['case',
-                                                                 ['==', ['get', 'Line'], lineName], // Red for clicked station
-                                                                 'yellow',
-                                                                 'white' // White for any other stations
-                                                                 ]);
-      }
+    map.on('style.load', function() {
+      addLayersAfterStyleLoad();
+    }); // close map.on style.load
 
-      
-      map.on('click', 'stations', (e) => {
-
-        // remove previous highlights (make it default)
-        map.setPaintProperty('stations', 'circle-stroke-color', 'white');
-        map.setPaintProperty('lines', 'line-color', ['get', 'colour']);
-
-        const features = map.queryRenderedFeatures(e.point, { layers: ['stations'] });
-        if (features.length > 0) {
-          const station = features[0];
-          const lineName = station.properties.Line;
-          highlightStationsOnLine(lineName);
-        } else {
-          clearMap();
-        }
-
-        // add popup
-        new mapboxgl.Popup()
-          .setLngLat(e.lngLat)
-          .setHTML(
-            `<P> ${e.features[0].properties.StationName} Station</p>
-             <p><strong>Station Number:<strong> ${e.features[0].properties.StationNumber}</p>
-             <p><strong>Line:</strong> ${e.features[0].properties.Line}</p>
-             <p><strong>Station Type</strong> ${e.features[0].properties.Type}</p>
-             <p><strong>Japanese Name:</strong> ${e.features[0].properties.JPname}</p>`
-          )
-          .addTo(map);
-      });
-      
-      //change the cursor to a pointer when the mouse is over the station points
-      map.on('mouseenter', 'stations', () => {
-        map.getCanvas().style.cursor = 'pointer';
-      });
-      
-      // change the cursor back to a pointer when it leaves the station points
-      map.on('mouseleave', 'stations', () => {
-        map.getCanvas().style.cursor = '';
-      });
-      
-    });
-    });
-
-
+    addLayersAfterStyleLoad();
+  } // close function addLayersAfterStyleLoad
 
   </script>
 </body>
