@@ -79,12 +79,11 @@
     function addLayersAfterStyleLoad() {
     // load line GeoJSON
     fetch("https://raw.githubusercontent.com/K6221/GEOS472_lab2/main/line.geojson").then(res => res.json()).then(linedata => {
-      map.on('load', function() {
         map.addSource('lines', {
           type: 'geojson',
           data: linedata
         });
-        // add onto the map 
+        // add to the map 
         map.addLayer({
           'id': 'lines',
           'type': 'line',
@@ -102,12 +101,10 @@
             'line-width': 4,
           }
         }); // close map.addLayer
-      }); // close map.on
     }); // close fetch line
     
     //load station GeoJSON 
     fetch("https://raw.githubusercontent.com/K6221/GEOS472_lab2/main/station.geojson").then(res => res.json()).then(stationdata => {
-      map.on('load', function() {
         map.addSource('stations', {
           type: 'geojson',
           data: stationdata
