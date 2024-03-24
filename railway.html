@@ -138,6 +138,15 @@
                                                                      'white'
                                                                      ]);
           } // close else
+
+          // reset line colour for all lines
+          map.setPaintProperty('lines', 'line-color', ['get', 'colour']);
+
+          map.setPaintProperty('lines', 'line-color', ['case',
+                                                       ['==', ['get', 'line'], lineName],
+                                                       'yellow',
+                                                       ['get', 'colour']
+                                                       ]);
         }// close highlightStationsOnLine function
 
         map.on('click', 'stations', (e) => {
