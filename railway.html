@@ -69,6 +69,12 @@
       map.setStyle(selectedStyle);
     });
 
+    // clear Map highlight function (makes it default)
+    function clearMap() {
+      map.setPaintProperty('stations', 'circle-stroke-color', 'white');
+      map.setPaintProperty('lines', 'line-color', ['get', 'colour']);
+    }
+
 
     // load line GeoJSON
     fetch("https://raw.githubusercontent.com/K6221/GEOS472_lab2/main/line.geojson").then(res => res.json()).then(linedata => {
@@ -129,12 +135,6 @@
                                                                  'yellow',
                                                                  'white' // White for any other stations
                                                                  ]);
-      }
-
-      // clear Map highlight function (makes it default)
-      function clearMap() {
-        map.setPaintProperty('stations', 'circle-stroke-color', 'white');
-        map.setPaintProperty('lines', 'line-color', ['get', 'colour']);
       }
 
       
