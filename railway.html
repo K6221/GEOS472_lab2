@@ -37,12 +37,12 @@
     
   </style>
   <div id="map"></div>
-
-  <div>
-    <select id="style-select" class="style-selector">
-      <option value="mapbox://styles/K6221/cltxr4dy101ix01r5elg32b1a">Dark basemap</option>
-      <option value="mapbox://styles/k6221/clu3253js025s01ra1ktn14qc">Light basemap</option>
-    </select>
+  
+  <div class="style-selector">
+        <input id="dark-basemap" type="radio" name="rtoggle" value="cltxr4dy101ix01r5elg32b1a" checked="checked">
+        <label for="dark-basemap">Dark basemap</label>
+        <input id="light-basemap" type="radio" name="rtoggle" value="clu3253js025s01ra1ktn14qc">
+        <label for="light-basemap">Light basemap</label>
   </div>
 
   <div>
@@ -61,13 +61,6 @@
             center: [135.5075, 34.5986], // set Osaka, Japan as the centre
             zoom: 9.3
         });
-
-    // make an option for base map
-    var styleSelect = document.getElementById('style-select');
-    styleSelect.addEventListener('change', function () {
-      var selectedStyle = styleSelect.value;
-      map.setStyle(selectedStyle);
-    });
 
     // clear Map highlight function (makes it default)
     function clearMap(style) {
@@ -191,7 +184,15 @@
       addLayersAfterStyleLoad();
     }); // close map.on style.load
 
-    addLayersAfterStyleLoad();
+    const styleSelector = document.getElementsByClassName('style-selector')[0];
+    const inputs = styleSelector.getElementsByTagName('input');
+    
+    for (const input of inputs) {
+      input.onclick = () => {
+        const layerId = input.value;
+        map.setStyle(`mapbox://styles/k6221/${layerId}`);
+      }; // close input.onclick
+    } // close for loop
 
   </script>
 </body>
