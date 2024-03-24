@@ -26,6 +26,14 @@
       border-radius: 5px;
       z-index: 1
     }
+
+    .reset-button {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      background-color: white;
+      padding: 10px;
+    }
     
   </style>
   <div id="map"></div>
@@ -36,7 +44,10 @@
       <option value="mapbox://styles/K6221/cltxr4dy101ix01r5elg32b1a">Default Style</option>
       <option value="mapbox://styles/k6221/clu3253js025s01ra1ktn14qc">Light basemap</option>
     </select>
-    <button onclick="resetMapAppearance()">Reset</button>
+  </div>
+
+  <div>
+    <button onclick="resetMapAppearance()", class="reset-button">Reset</button>
   </div>
 
   <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
