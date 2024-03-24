@@ -27,7 +27,7 @@
       z-index: 1
     }
 
-    .reset-button {
+    .clear-button {
       position: absolute;
       top: 10px;
       left: 10px;
@@ -46,7 +46,7 @@
   </div>
 
   <div>
-    <button onclick="resetMapAppearance()" class="reset-button">Clear</button>
+    <button onclick="clearMap()" class="clear-button">Clear</button>
   </div>
 
   <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
@@ -131,8 +131,8 @@
                                                                  ]);
       }
 
-      // reset function (make it default)
-      function resetMapAppearance() {
+      // clear Map highlight function (makes it default)
+      function clearMap() {
         map.setPaintProperty('stations', 'circle-stroke-color', 'white');
         map.setPaintProperty('lines', 'line-color', ['get', 'colour']);
       }
@@ -150,7 +150,7 @@
           const lineName = station.properties.Line;
           highlightStationsOnLine(lineName);
         } else {
-          resetMapAppearance();
+          clearMap();
         }
 
         // add popup
