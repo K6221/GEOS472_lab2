@@ -70,10 +70,17 @@
     });
 
     // clear Map highlight function (makes it default)
-    function clearMap() {
-      map.setPaintProperty('stations', 'circle-stroke-color', 'white');
-      map.setPaintProperty('lines', 'line-color', ['get', 'colour']);
-    }
+    function clearMap(style) {
+      if (style === 'mapbox://styles/k6221/clu3253js025s01ra1ktn14qc') { // Light basemap
+        map.setPaintProperty('stations', 'circle-stroke-color', 'black');
+        map.setPaintProperty('lines', 'line-color', ['get', 'colour']);
+      } else { // close if: Dark basemap
+        map.setPaintProperty('stations', 'circle-stroke-color', 'black');
+        map.setPaintProperty('lines', 'line-color', ['get', 'colour']);
+      } // close else
+    } // close clearMap
+        
+        
 
 
     function addLayersAfterStyleLoad() {
@@ -124,26 +131,34 @@
         }); // close map.addLayer
 
         // highlight function
-        function highlightStationsOnLine(lineName) {
-          map.setPaintProperty('stations', 'circle-stroke-color', ['case',
-                                                                   ['==', ['get', 'Line'], lineName], // Red for clicked station
-                                                                   'yellow',
-                                                                   'white' // White for any other stations
-                                                                  ]);
-        } // close highlightStationsOnLine function
+        function highlightStationsOnLine(lineName, style) {
+          if (style === 'mapbox://styles/k6221/clu3253js025s01ra1ktn14qc') {// Light basemap selected
+            map.setPaintProperty('stations', 'circle-stroke-color', ['case',
+                                                                     ['==', ['get', 'Line'], lineName], // Red for clicked station
+                                                                     'red', 
+                                                                     'black' 
+                                                                     ]);
+          } else {// Dark basemap selected
+            map.setPaintProperty('stations', 'circle-stroke-color', ['case',
+                                                                     ['==', ['get', 'Line'], lineName], // Yellow for clicked station
+                                                                     'yellow', 
+                                                                     'white'
+                                                                     ]);
+          } // close else
+        }// close highlightStationsOnLine function
 
         map.on('click', 'stations', (e) => {
           // remove previous highlights (make it default)
-          map.setPaintProperty('stations', 'circle-stroke-color', 'white');
-          map.setPaintProperty('lines', 'line-color', ['get', 'colour']);
+          clearMap(map.getStyle().layers[0].id); 
 
           const features = map.queryRenderedFeatures(e.point, { layers: ['stations'] });
           if (features.length > 0) {
             const station = features[0];
             const lineName = station.properties.Line;
-            highlightStationsOnLine(lineName);
+            const style = map.getStyle().layers[0].id;
+            highlightStationsOnLine(lineName, style);
           } else {
-            clearMap();
+            clearMap(map.getStyle().layers[0].id);
           } // close else
 
           // add popup
@@ -177,7 +192,6 @@
     }); // close map.on style.load
 
     addLayersAfterStyleLoad();
-   // close function addLayersAfterStyleLoad
 
   </script>
 </body>
