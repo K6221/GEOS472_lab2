@@ -64,8 +64,10 @@
 
     // clear Map highlight function (makes it default)
     function clearMap() {
-      const style = map.getStyle().layers[0].id;
-      if (style === 'mapbox://styles/k6221/clu3253js025s01ra1ktn14qc') { // Light basemap
+      let sprite_style = map.getStyle().sprite; // get Sprite URL
+      sprite_style = sprite_style.substr(0, sprite_style.lastIndexOf("/"));
+      
+      if (sprite_style === 'mapbox://styles/k6221/clu3253js025s01ra1ktn14qc') { // Light basemap
         map.setPaintProperty('stations', 'circle-stroke-color', 'black');
         map.setPaintProperty('lines', 'line-color', ['get', 'colour']);
         map.setPaintProperty('lines', 'line-width', 4);
@@ -79,7 +81,7 @@
         
     function addLayersAfterStyleLoad() {
     // load line GeoJSON
-    fetch("https://raw.githubusercontent.com/K6221/GEOS472_lab2/main/line.geojson").then(res => res.json()).then(linedata => {
+      fetch("https://raw.githubusercontent.com/K6221/GEOS472_lab2/main/line.geojson").then(res => res.json()).then(linedata => {
         map.addSource('lines', {
           type: 'geojson',
           data: linedata
@@ -102,7 +104,10 @@
             'line-width': 4,
           }
         }); // close map.addLayer
-    }); // close fetch line
+        if ((map.getStyle().layers.map((el) => {return et.id})).includes('stations')) {
+          clearMap(); // run this to make sure station data is already loaded
+        }
+      }); // close fetch line
     
     //load station GeoJSON 
     fetch("https://raw.githubusercontent.com/K6221/GEOS472_lab2/main/station.geojson").then(res => res.json()).then(stationdata => {
@@ -123,78 +128,83 @@
             'circle-stroke-width': 2
           } //close paint
         }); // close map.addLayer
+      if ((map.getStyle().layers.map((el) => {return el.id})).includes('lines')) {
+        clearMap();
+      }; // close if includes
+    }); // close fetch
+    } // close addlayersafterstyleload
+    
+    // highlight function
+    function highlightStationsOnLine(lineName, style) {
+      if (sprite_style === 'mapbox://styles/k6221/clu3253js025s01ra1ktn14qc') {// Light basemap selected
+        map.setPaintProperty('stations', 'circle-stroke-color', ['case',
+                                                                 ['==', ['get', 'Line'], lineName], // Red for clicked station
+                                                                 'red', 
+                                                                 'black'
+                                                                ]); // close setPaintProperty Light
+      } else {// Dark basemap selected // close if
+        map.setPaintProperty('stations', 'circle-stroke-color', ['case',
+                                                                 ['==', ['get', 'Line'], lineName], // Yellow for clicked station
+                                                                 'yellow', 
+                                                                 'white'
+                                                                ]); // close setPaintProperty Dark
+      } // close else
+    }// close highlightStationsOnLine function
 
-        // highlight function
-        function highlightStationsOnLine(lineName, style) {
-          if (style === 'mapbox://styles/k6221/clu3253js025s01ra1ktn14qc') {// Light basemap selected
-            map.setPaintProperty('stations', 'circle-stroke-color', ['case',
-                                                                     ['==', ['get', 'Line'], lineName], // Red for clicked station
-                                                                     'red', 
-                                                                     'black' 
-                                                                     ]);
-          } else {// Dark basemap selected
-            map.setPaintProperty('stations', 'circle-stroke-color', ['case',
-                                                                     ['==', ['get', 'Line'], lineName], // Yellow for clicked station
-                                                                     'yellow', 
-                                                                     'white'
-                                                                     ]);
-          } // close else
-        }// close highlightStationsOnLine function
+    // highlight an associated line
+    function highlightAssociatedLine(lineName) {
+      map.setPaintProperty('lines', 'line-color', ['case',
+                                                   ['==', ['get', 'line name'], lineName],
+                                                   'yellow',
+                                                   ['get', 'colour']
+                                                  ]); // close map.setPaintProperty colour
+      map.setPaintProperty('lines', 'line-width', ['case',
+                                                   ['==', ['get', 'line name'], lineName],
+                                                   6, // if it is an associated line, line width = 6
+                                                   4 // otherwise it is 4
+                                                   ]); // close map.setPaintProperty width
+    } // close highlightAssociatedLine
+    
+    
+    map.on('click', 'stations', (e) => {
+      // remove previous highlights (make it default)
+      clearMap(); 
       
-        function highlightAssociatedLine(lineName) {
-          map.setPaintProperty('lines', 'line-color', ['case',
-                                                       ['==', ['get', 'line name'], lineName],
-                                                       'yellow',
-                                                       ['get', 'colour']
-                                                       ]);
-          map.setPaintProperty('lines', 'line-width', ['case',
-                                                       ['==', ['get', 'line name'], lineName],
-                                                       6, // if it is an associated line, line width = 6
-                                                       4 // otherwise it is 4
-                                                       ]);
-        } // close highlightAssociatedLine
-
-        map.on('click', 'stations', (e) => {
-          // remove previous highlights (make it default)
-          clearMap(map.getStyle().layers[0].id); 
-
-          const features = map.queryRenderedFeatures(e.point, { layers: ['stations'] });
-          if (features.length > 0) {
-            const station = features[0];
-            const lineName = station.properties.Line;
-            const style = map.getStyle().layers[0].id;
-            highlightStationsOnLine(lineName, style);
-            highlightAssociatedLine(lineName);
-          } else {
-            clearMap();
-          } // close else
-
-          // add popup
-          new mapboxgl.Popup()
-            .setLngLat(e.lngLat)
-            .setHTML(
-              `<P> ${e.features[0].properties.StationName} Station</p>
-               <p><strong>Station Number:<strong> ${e.features[0].properties.StationNumber}</p>
-               <p><strong>Line:</strong> ${e.features[0].properties.Line}</p>
-               <p><strong>Station Type</strong> ${e.features[0].properties.Type}</p>
-               <p><strong>Japanese Name:</strong> ${e.features[0].properties.JPname}</p>`
-            ) // cloase setHTML
-            .addTo(map);
-        }); // close map.on click function
-
-        //change the cursor to a pointer when the mouse is over the station points
-        map.on('mouseenter', 'stations', () => {
-          map.getCanvas().style.cursor = 'pointer';
-        });
-
-        // change the cursor back to a pointer when it leaves the station points
-        map.on('mouseleave', 'stations', () => {
-          map.getCanvas().style.cursor = '';
-        });
-        
-      }); // close map.on
-    }; // close fetch station
-
+      const features = map.queryRenderedFeatures(e.point, { layers: ['stations'] });
+      if (features.length > 0) {
+        const station = features[0];
+        const lineName = station.properties.Line;
+        let sprite_style = map.getStyle().sprite;
+        sprite_style = sprite_style.substr(0, sprite_style.lastIndexOf("/")); 
+        highlightStationsOnLine(lineName, sprite_style);
+        highlightAssociatedLine(lineName);
+      } else { // close if
+        clearMap();
+      } // close else
+      
+      // add popup
+      new mapboxgl.Popup()
+        .setLngLat(e.lngLat)
+        .setHTML(
+          `<P><strong> ${e.features[0].properties.StationName} Station</strong></p>
+          <p><strong>Station Number:</strong> ${e.features[0].properties.StationNumber}</p>
+          <p><strong>Line:</strong> ${e.features[0].properties.Line}</p>
+          <p><strong>Station Type</strong> ${e.features[0].properties.Type}</p>
+          <p><strong>Japanese Name:</strong> ${e.features[0].properties.JPname}</p>`
+        ) // cloase setHTML
+      .addTo(map);
+    }); // close map.on click function
+    
+    //change the cursor to a pointer when the mouse is over the station points
+    map.on('mouseenter', 'stations', () => {
+      map.getCanvas().style.cursor = 'pointer';
+    }); // close mouseenter
+    
+    // change the cursor back to a pointer when it leaves the station points
+    map.on('mouseleave', 'stations', () => {
+      map.getCanvas().style.cursor = '';
+    }); // close mouseleave
+    
     map.on('style.load', () => {
       addLayersAfterStyleLoad();
     }); // close map.on style.load
