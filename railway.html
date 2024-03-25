@@ -135,7 +135,7 @@
     } // close addlayersafterstyleload
     
     // highlight function
-    function highlightStationsOnLine(lineName, style) {
+    function highlightStationsOnLine(lineName, sprite_style) {
       if (sprite_style === 'mapbox://styles/k6221/clu3253js025s01ra1ktn14qc') {// Light basemap selected
         map.setPaintProperty('stations', 'circle-stroke-color', ['case',
                                                                  ['==', ['get', 'Line'], lineName], // Red for clicked station
