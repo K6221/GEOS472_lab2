@@ -147,7 +147,7 @@
       } else {// Dark basemap selected // close if
         map.setPaintProperty('stations', 'circle-stroke-color', ['case',
                                                                  ['==', ['get', 'Line'], lineName], // Yellow for clicked station
-                                                                 'yellow', 
+                                                                 'red', 
                                                                  'white'
                                                                 ]); // close setPaintProperty Dark
       } // close else
@@ -159,12 +159,21 @@
     }// close highlightStationsOnLine function
 
     // highlight an associated line
-    function highlightAssociatedLine(lineName) {
-      map.setPaintProperty('lines', 'line-color', ['case',
-                                                   ['==', ['get', 'line name'], lineName],
-                                                   'yellow',
-                                                   ['get', 'colour']
-                                                  ]); // close map.setPaintProperty colour
+    function highlightAssociatedLine(lineName, sprite_style) {
+      if (sprite_style === 'mapbox://sprites/k6221/clu3253js025s01ra1ktn14qc') {// Light basemap selected
+        map.setPaintProperty('lines', 'line-color', ['case',
+                                                     ['==', ['get', 'line name'], lineName],
+                                                     'gray',
+                                                     ['get', 'colour']
+                                                    ]); // close map.setPaintProperty colour Light
+      } else { // Dark basemap
+        map.setPaintProperty('lines', 'line-color', ['case',
+                                                     ['==', ['get', 'line name'], lineName],
+                                                     'yellow',
+                                                     ['get', 'colour']
+                                                     ]); //close map.setPaintProperty colour Dark
+      }
+      
       map.setPaintProperty('lines', 'line-width', ['case',
                                                    ['==', ['get', 'line name'], lineName],
                                                    8, // if it is an associated line, line width = 8 
@@ -184,7 +193,7 @@
         let sprite_style = map.getStyle().sprite;
         sprite_style = sprite_style.substr(0, sprite_style.lastIndexOf("/")); 
         highlightStationsOnLine(lineName, sprite_style);
-        highlightAssociatedLine(lineName);
+        highlightAssociatedLine(lineName, sprite_style);
       } else { // close if
         clearMap();
       } // close else
