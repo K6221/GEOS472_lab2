@@ -104,7 +104,7 @@
             'line-width': 4,
           }
         }); // close map.addLayer
-        if ((map.getStyle().layers.map((el) => {return et.id})).includes('stations')) {
+        if ((map.getStyle().layers.map((el) => {return el.id})).includes('stations')) {
           clearMap(); // run this to make sure station data is already loaded
         }
       }); // close fetch line
