@@ -138,6 +138,14 @@
                                                                      ]);
           } // close else
         }// close highlightStationsOnLine function
+      
+        function highlightAssociatedLine(lineName) {
+          map.setPaintProperty('lines', 'line-color', ['case',
+                                                       ['==', ['get', 'line name'], lineName],
+                                                       'yellow',
+                                                       ['get', 'colour']
+                                                       ]);
+        } // close highlightAssociatedLine
 
         map.on('click', 'stations', (e) => {
           // remove previous highlights (make it default)
@@ -149,6 +157,7 @@
             const lineName = station.properties.Line;
             const style = map.getStyle().layers[0].id;
             highlightStationsOnLine(lineName, style);
+            highlightAssociatedLine(lineName);
           } else {
             clearMap();
           } // close else
