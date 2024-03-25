@@ -67,7 +67,7 @@
       let sprite_style = map.getStyle().sprite; // get Sprite URL
       sprite_style = sprite_style.substr(0, sprite_style.lastIndexOf("/"));
       
-      if (sprite_style === 'mapbox://styles/k6221/clu3253js025s01ra1ktn14qc') { // Light basemap
+      if (sprite_style === 'mapbox://sprites/k6221/clu3253js025s01ra1ktn14qc') { // Light basemap
         map.setPaintProperty('stations', 'circle-stroke-color', 'black');
         map.setPaintProperty('lines', 'line-color', ['get', 'colour']);
         map.setPaintProperty('lines', 'line-width', 4);
@@ -136,7 +136,7 @@
     
     // highlight function
     function highlightStationsOnLine(lineName, sprite_style) {
-      if (sprite_style === 'mapbox://styles/k6221/clu3253js025s01ra1ktn14qc') {// Light basemap selected
+      if (sprite_style === 'mapbox://sprites/k6221/clu3253js025s01ra1ktn14qc') {// Light basemap selected
         map.setPaintProperty('stations', 'circle-stroke-color', ['case',
                                                                  ['==', ['get', 'Line'], lineName], // Red for clicked station
                                                                  'red', 
