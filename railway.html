@@ -69,10 +69,12 @@
       
       if (sprite_style === 'mapbox://sprites/k6221/clu3253js025s01ra1ktn14qc') { // Light basemap
         map.setPaintProperty('stations', 'circle-stroke-color', 'black');
+        map.setPaintProperty('stations', 'circle-radius', 6);
         map.setPaintProperty('lines', 'line-color', ['get', 'colour']);
         map.setPaintProperty('lines', 'line-width', 4);
       } else { // close if: Dark basemap
         map.setPaintProperty('stations', 'circle-stroke-color', 'white');
+        map.setPaintProperty('stations', 'circle-radius', 6);
         map.setPaintProperty('lines', 'line-color', ['get', 'colour']);
         map.setPaintProperty('lines', 'line-width', 4);
       } // close else
@@ -149,6 +151,11 @@
                                                                  'white'
                                                                 ]); // close setPaintProperty Dark
       } // close else
+      map.setPaintProperty('stations', 'circle-radius', ['case',
+                                                         ['==', ['get', 'Line'], lineName],
+                                                         8,
+                                                         6
+                                                         ]); // c.ose setPaintProperty radius
     }// close highlightStationsOnLine function
 
     // highlight an associated line
