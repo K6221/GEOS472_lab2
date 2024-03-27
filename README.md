@@ -2,6 +2,8 @@
 
 Link to map: https://K6221.github.io/GEOS472_lab2/railway.html
 
+![alt text](https://github.com/K6221/GEOS472_lab2/main/screenshot.png "Screenshot")
+
 Collaborations and reliance on other resources:
 I got initial inspiration from https://minitokyo3d.com/, which is a 2.5D map showing railway lines and the real-time position of trains in Tokyo. I also obtained the colour setting for the lines from existing static maps, which are often displayed at stations. Many of the functions implemented in this project are based on working examples published by Mapbox. (Persist sources and layers when switching a map's base style: https://docs.mapbox.com/mapbox-gl-js/example/style-switch/), (Change a map's style: https://docs.mapbox.com/mapbox-gl-js/example/setstyle/), (Display a popup on click: https://docs.mapbox.com/mapbox-gl-js/example/popup-on-click/), (Load data from an external GeoJSON file: https://docs.mapbox.com/mapbox-gl-js/example/external-geojson/). I also heavily relied on https://docs.mapbox.com/style-spec/reference/layers/ to learn what I can do to style layers. 
 
